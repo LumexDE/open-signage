@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -77,7 +78,7 @@ class AuthentikController extends Controller
                 'name' => $user['nickname'],
                 //'last_login' => Carbon::now(),
                 'email_verified_at' => $ex_email_verified,
-                'password' => bcrypt(bin2hex(random_bytes(16))),
+                'password' => Hash::make(bin2hex(random_bytes(16))),
             ]);
 
             $updated = true;
