@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build && vite build --ssr"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^7.0.0",
@@ -12,6 +12,7 @@
         "@sentry/vue": "^8.27.0",
         "@tailwindcss/forms": "^0.5.8",
         "@vitejs/plugin-vue": "^6.0.1",
+        "@vue/server-renderer": "^3.5.22",
         "autoprefixer": "^10.4.20",
         "axios": "^1.11.0",
         "dotenv": "^17.2.1",
