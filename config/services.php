@@ -35,4 +35,11 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN',null),
         'chat_id' => env('TELEGRAM_CHAT_ID',null),
     ],
+
+    'authentik' => [
+        'base_url' => env('AUTHENTIK_BASE_URL'),
+        'client_id' => env('AUTHENTIK_CLIENT_ID'),
+        'client_secret' => env('AUTHENTIK_CLIENT_SECRET'),
+        'redirect' => env('AUTHENTIK_REDIRECT_URI'),
+    ],
 ];

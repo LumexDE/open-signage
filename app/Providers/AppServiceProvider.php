@@ -2,19 +2,20 @@
 
 namespace App\Providers;
 
-use App\Channels\AdminChannel;
+use App\Models\Room;
+use App\Models\Screen;
+use App\Models\RoomScreen;
 use App\Models\Announcement;
 use App\Models\PlaylistItem;
-use App\Models\Room;
-use App\Models\RoomScreen;
 use App\Models\ScheduleEntry;
-use App\Models\Screen;
+use App\Channels\AdminChannel;
+use App\Observers\RoomObserver;
+use App\Observers\ScreenObserver;
+use App\Observers\ScheduleObserver;
+use App\Observers\RoomScreenObserver;
+use Illuminate\Support\Facades\Event;
 use App\Observers\AnnouncementObserver;
 use App\Observers\PlaylistItemObserver;
-use App\Observers\RoomObserver;
-use App\Observers\RoomScreenObserver;
-use App\Observers\ScheduleObserver;
-use App\Observers\ScreenObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Notification;
 
@@ -25,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        //$this->app->register(\Sentry\Laravel\Integration::class);
     }
 
     /**
@@ -41,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
 
         Notification::extend('admin', function ($app) {
             return new AdminChannel();
+        });
+
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('authentik', \SocialiteProviders\Authentik\Provider::class);
         });
     }
 }

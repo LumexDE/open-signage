@@ -25,9 +25,13 @@ Route::middleware(\App\Http\Middleware\EnsureSharedSecretIsSetMiddleware::class)
     Route::post('screens/{screen}/ping', \App\Http\Controllers\Screens\PingController::class)->name('screens.ping');
 });
 
-Route::get('/', function () {
-    return redirect('/admin');
-})->name('login');
+Route::redirect('/', '/admin/login')->middleware('guest')->name('start');
+Route::redirect('/login', '/admin/login')->name('login');
+
+Route::prefix('/auth')->name('auth.')->group(function () {
+    Route::get('/callback', [\App\Http\Controllers\AuthentikController::class,'loginCallback'])->middleware('guest')->name('login.callback');
+    Route::get('/frontchannel-logout', [\App\Http\Controllers\AuthentikController::class,'logoutCallback'])->name('logout.callback');
+});
 
 Route::get('timetable', \App\Http\Controllers\TimetableController::class)->name('timetable');
 Route::get('efsched', \App\Http\Controllers\EurofurenceScheduleController::class)->name('efsched');
