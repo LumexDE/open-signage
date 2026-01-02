@@ -63,6 +63,20 @@ return [
             ]) : [],
         ],
 
+        'remote_schedule' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => '127.0.0.1', // Platzhalter
+            'port' => '3306',
+            'database' => '',      // Platzhalter
+            'username' => '',      // Platzhalter
+            'password' => '',      // Platzhalter
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
