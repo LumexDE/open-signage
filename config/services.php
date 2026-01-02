@@ -43,8 +43,8 @@ return [
         'redirect' => env('AUTHENTIK_REDIRECT_URI'),
         'guzzle' => [
             'timeout' => 15,
-            'connect_timeout' => 5,
-            'verify' => false,     // Testweise SSL-Prüfung deaktivieren
+            'connect_timeout' => 10,
+            'verify' => true,
         ],
     ],
 ];
