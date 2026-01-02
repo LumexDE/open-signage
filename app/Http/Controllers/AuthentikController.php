@@ -20,6 +20,7 @@ class AuthentikController extends Controller
     public function loginCallback()
     {
         $user = Socialite::driver('authentik')->user();
+        dd($user);
         $local_user = User::where('ex_id', $user['sub'])->first();
 
         $ex_email_verified = $user['email_verified'];
