@@ -32,8 +32,8 @@ return [
     ],
 
     'telegram-bot-api' => [
-        'token' => env('TELEGRAM_BOT_TOKEN',null),
-        'chat_id' => env('TELEGRAM_CHAT_ID',null),
+        'token' => env('TELEGRAM_BOT_TOKEN', null),
+        'chat_id' => env('TELEGRAM_CHAT_ID', null),
     ],
 
     'authentik' => [
@@ -41,5 +41,10 @@ return [
         'client_id' => env('AUTHENTIK_CLIENT_ID'),
         'client_secret' => env('AUTHENTIK_CLIENT_SECRET'),
         'redirect' => env('AUTHENTIK_REDIRECT_URI'),
+        'guzzle' => [
+            'timeout' => 15,
+            'connect_timeout' => 5,
+            'verify' => false,     // Testweise SSL-Prüfung deaktivieren
+        ],
     ],
 ];
