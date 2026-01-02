@@ -30,6 +30,11 @@ class ScreenGroupResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Programming';
 
+    public static function canAccess(): bool
+    {
+        return (bool) config('app.online_mode');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

@@ -29,6 +29,11 @@ class ArtworkResource extends Resource
 
     protected static string | \UnitEnum | null $navigationGroup = 'Content';
 
+    public static function canAccess(): bool
+    {
+        return (bool) config('app.online_mode');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

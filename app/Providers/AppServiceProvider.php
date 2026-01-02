@@ -12,6 +12,7 @@ use App\Channels\AdminChannel;
 use App\Observers\RoomObserver;
 use App\Observers\ScreenObserver;
 use App\Observers\ScheduleObserver;
+use Illuminate\Support\Facades\URL;
 use App\Observers\RoomScreenObserver;
 use Illuminate\Support\Facades\Event;
 use App\Observers\AnnouncementObserver;
@@ -47,5 +48,9 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('authentik', \SocialiteProviders\Authentik\Provider::class);
         });
+
+        if (app()->environment('production') || app()->environment('testing')) {
+            URL::forceScheme('https');
+        }
     }
 }

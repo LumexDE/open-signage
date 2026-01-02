@@ -34,6 +34,11 @@ class PageResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'id';
 
+    public static function canAccess(): bool
+    {
+        return (bool) config('app.online_mode');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

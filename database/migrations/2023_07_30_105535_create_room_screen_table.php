@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('room_screen', function (Blueprint $table) {
+            $table->id();
             $table->foreignIdFor(\App\Models\Room::class)
                 ->constrained()
                 ->onDelete('cascade');
