@@ -34,6 +34,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->strictAuthorization()
+            ->passwordReset()
+            ->unsavedChangesAlerts()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -67,6 +70,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
+            /*
             ->plugin(
                 FilamentSocialitePlugin::make()
                     ->providers([
@@ -79,6 +83,7 @@ class AdminPanelProvider extends PanelProvider
                     ])
                     ->registration(true)
             )
+            */
             ->authMiddleware([
                 Authenticate::class,
             ]);
