@@ -2,36 +2,38 @@
 
 namespace App\Filament\Resources\ScheduleEntries;
 
-use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Group;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Actions\EditAction;
-use Filament\Actions\ReplicateAction;
-use Filament\Actions\DeleteAction;
-use App\Filament\Resources\ScheduleEntries\Pages\ListScheduleEntries;
-use App\Filament\Resources\ScheduleEntries\Pages\CreateScheduleEntry;
-use App\Filament\Resources\ScheduleEntries\Pages\EditScheduleEntry;
-use App\Filament\Resources\ScheduleEntryResource\Pages;
-use App\Models\Playlist;
-use App\Models\PlaylistItem;
-use App\Models\ScheduleEntry;
 use App\Models\Screen;
-use App\Settings\GeneralSettings;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
+use App\Models\Playlist;
 use Filament\Tables\Table;
+use App\Models\PlaylistItem;
+use Filament\Schemas\Schema;
+use App\Models\ScheduleEntry;
+use Filament\Actions\BulkAction;
+use Filament\Actions\EditAction;
+use Filament\Resources\Resource;
+use App\Settings\GeneralSettings;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ReplicateAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Builder;
+use Filament\Schemas\Components\Group;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Infolists\Components\TextEntry;
+use Illuminate\Database\Eloquent\Collection;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Schemas\Components\Utilities\Get;
+use App\Filament\Resources\ScheduleEntryResource\Pages;
+use App\Filament\Resources\ScheduleEntries\Pages\EditScheduleEntry;
+use App\Filament\Resources\ScheduleEntries\Pages\CreateScheduleEntry;
+use App\Filament\Resources\ScheduleEntries\Pages\ListScheduleEntries;
 
 class ScheduleEntryResource extends Resource
 {
@@ -219,12 +221,18 @@ class ScheduleEntryResource extends Resource
 
             ])->filters([
                 SelectFilter::make('room_id')->multiple()->preload()->label('Rooms')->relationship('room', 'name'),
-                SelectFilter::make('schedule_type_id')->multiple()->preload()->label('Schedule Types')->relationship('scheduleType',
-                    'name'),
+                SelectFilter::make('schedule_type_id')->multiple()->preload()->label('Schedule Types')->relationship(
+                    'scheduleType',
+                    'name'
+                ),
             ])->recordActions([
                 EditAction::make(),
                 ReplicateAction::make(),
                 DeleteAction::make(),
+            ])->toolbarActions([
+                BulkAction::make('delete')
+                    ->requiresConfirmation()
+                    ->action(fn(Collection $records) => $records->each->delete())
             ]);
     }
 
