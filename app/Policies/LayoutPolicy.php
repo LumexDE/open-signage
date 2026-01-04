@@ -1,64 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Enums\ResourceOwnership;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Layout;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class LayoutPolicy
 {
     use HandlesAuthorization;
-
-    public function viewAny(User $user): bool
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return true;
+        return $authUser->can('ViewAny:Layout');
     }
 
-    public function view(User $user, Layout $layout): bool
+    public function view(AuthUser $authUser, Layout $layout): bool
     {
-        return true;
+        return $authUser->can('View:Layout');
     }
 
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return true;
+        return $authUser->can('Create:Layout');
     }
 
-    public function update(User $user, Layout $layout): bool
+    public function update(AuthUser $authUser, Layout $layout): bool
     {
-        if ($layout->project === null) {
-            return true;
-        }
-
-        return $layout->project->type === ResourceOwnership::USER;
+        return $authUser->can('Update:Layout');
     }
 
-    public function delete(User $user, Layout $layout): bool
+    public function delete(AuthUser $authUser, Layout $layout): bool
     {
-        if ($layout->project === null) {
-            return true;
-        }
-
-        return $layout->project->type === ResourceOwnership::USER;
+        return $authUser->can('Delete:Layout');
     }
 
-    public function restore(User $user, Layout $layout): bool
+    public function restore(AuthUser $authUser, Layout $layout): bool
     {
-        if ($layout->project === null) {
-            return true;
-        }
-
-        return $layout->project->type === ResourceOwnership::USER;
+        return $authUser->can('Restore:Layout');
     }
 
-    public function forceDelete(User $user, Layout $layout): bool
+    public function forceDelete(AuthUser $authUser, Layout $layout): bool
     {
-        if ($layout->project === null) {
-            return true;
-        }
-
-        return $layout->project->type === ResourceOwnership::USER;
+        return $authUser->can('ForceDelete:Layout');
     }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Layout');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Layout');
+    }
+
+    public function replicate(AuthUser $authUser, Layout $layout): bool
+    {
+        return $authUser->can('Replicate:Layout');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Layout');
+    }
+
 }

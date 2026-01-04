@@ -1,56 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Enums\ResourceOwnership;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Page;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PagePolicy
 {
     use HandlesAuthorization;
-
-    public function viewAny(User $user): bool
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return true;
+        return $authUser->can('ViewAny:Page');
     }
 
-    public function view(User $user, Page $page): bool
+    public function view(AuthUser $authUser, Page $page): bool
     {
-        return true;
+        return $authUser->can('View:Page');
     }
 
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return true;
+        return $authUser->can('Create:Page');
     }
 
-    public function update(User $user, Page $page): bool
+    public function update(AuthUser $authUser, Page $page): bool
     {
-        if ($page->project === null) {
-            return true;
-        }
-
-        return $page->project->type === ResourceOwnership::USER;
+        return $authUser->can('Update:Page');
     }
 
-    public function delete(User $user, Page $page): bool
+    public function delete(AuthUser $authUser, Page $page): bool
     {
-        if ($page->project === null) {
-            return true;
-        }
-
-        return $page->project->type === ResourceOwnership::USER;
+        return $authUser->can('Delete:Page');
     }
 
-    public function restore(User $user, Page $page): bool
+    public function restore(AuthUser $authUser, Page $page): bool
     {
-        return true;
+        return $authUser->can('Restore:Page');
     }
 
-    public function forceDelete(User $user, Page $page): bool
+    public function forceDelete(AuthUser $authUser, Page $page): bool
     {
-        return true;
+        return $authUser->can('ForceDelete:Page');
     }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Page');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Page');
+    }
+
+    public function replicate(AuthUser $authUser, Page $page): bool
+    {
+        return $authUser->can('Replicate:Page');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Page');
+    }
+
 }
